@@ -1,0 +1,115 @@
+# This is the config file for the Simple Forms extension.
+
+stylesheet: SimpleForms/simpleforms.css
+template: SimpleForms/simpleforms_form.twig
+mail_template: SimpleForms/simpleforms_mail.twig
+message_ok: Su mensaje ha sido enviado. Gracias.
+message_error: Ha habido un error en el formulario.
+message_technical: Ha habido algún error técnico y su mensaje no ha podido ser enviado.
+button_text: Enviar
+
+# A simple contact form. Use as {{ simpleform('contact') }} in your templates.
+contact:
+  recipient_email: enrique.desarrollo@gmail.com
+  recipient_name: Info
+  fields:
+    name:
+      label: Nombre:
+      type: text
+      required: true
+      placeholder: Su nombre...
+    subject:
+      type: text
+      label: Asunto
+      required: true
+      placeholder: Asunto...
+    email:
+      type: email
+      label: Correo electrónico:
+      required: true
+      placeholder: Correo electŕonico...
+    message:
+      type: textarea
+      label: Mensaje:
+      required: true
+      placeholder: Mensaje...
+    #cvfile:
+    #  type: file
+    #  label: CV
+    #  placeholder: CV...
+
+cvform:
+  recipient_email: enrique.desarrollo@gmail.com
+  recipient_name: Info
+  fields:
+    name:
+      label: Nombre:
+      type: text
+      required: true
+      placeholder: Su nombre...
+    subject:
+      type: text
+      label: Asuntoa
+      required: true
+      placeholder: Asunto...
+    email:
+      type: email
+      label: Correo electrónico:
+      required: true
+      placeholder: Correo electŕonico...
+    message:
+      type: textarea
+      label: Mensaje:
+      required: true
+      placeholder: Mensaje...
+    currifile:
+      type: file
+      filetype: [ txt, jpg ]
+      storage_location: 'files'
+      label: CV
+      placeholder: CV...
+
+
+
+# A demo form to showcase various options for fields. Use as
+# {{ simpleform('demo') }} in your templates.
+demo:
+  recipient_email: bob@twokings.nl
+  recipient_name: Bob
+  fields:
+    subject:
+      type: text
+      class: wide
+      required: false
+      label: Subject of your message
+      placeholder: Just a quick message ..
+    name:
+      type: text
+      required: true
+      placeholder: Your name ..
+    email:
+      type: email
+      label: Email address
+      required: true
+      placeholder: Your email ..
+    message:
+      type: textarea
+      required: true
+      placeholder: Well, the other day I was thinking that maybe you ought to improve your website by adding ..
+    favorite:
+      type: choice
+      label: My favorite animals are
+      choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
+      required: true
+    option1:
+      type: checkbox
+      label: Newsletter
+      placeholder: Yes, I <em>love</em> receiving <del>spam</del>, eh, newsletters.
+    option2:
+      type: checkbox
+      label: Agree to this!
+      placeholder: Yes, I will gladly agree to something or other.
+      required: true
+  button_text: Send the Demo form!
+
+

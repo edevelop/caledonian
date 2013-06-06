@@ -1,6 +1,6 @@
 app/cache/*
-app/config/*.yml
-*config.yml
+#app/config/*.yml
+#*config.yml
 app/database/*.db
 app/extensions/AlbumPager
 app/extensions/AlbumPager/*
