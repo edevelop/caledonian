@@ -1,0 +1,50 @@
+{% form_theme form 'SimpleForms/assets/simpleforms_fields.twig' %}
+
+{% if error %}
+    <p class="simpleformserror">{{ error }}</p>
+{% endif %}
+{% if message %}
+    <p class="simpleformsmessage">{{ message }}</p>
+{% endif %}
+{% if not sent %}
+<form action="#" method="post" enctype="multipart/form-data" novalidate >
+  {{ form_errors(form) }}
+  {# {{ print(app.mailer)}} #}
+    {# {{ form_widget(form) }} #}
+    <div>
+      {{ form_label(form.name) }}
+  		{{ __(form_errors(form.name)) }}
+  		{{ form_widget(form.name) }}
+  	</div>
+
+    <div>
+      {{ form_label(form.subject) }}
+      {{ __(form_errors(form.subject)) }}
+      {{ form_widget(form.subject) }}
+    </div>
+
+  	<div>
+  		{{ form_label(form.email) }}
+  		{{ __(form_errors(form.email)) }}
+  		{{ form_widget(form.email) }}
+  	</div>
+    
+  	<div>
+  		{{ form_label(form.message) }}
+  		{{ __(form_errors(form.message)) }}
+  		{{ form_widget(form.message) }}
+  	</div>
+    
+    
+  	<div>
+  		{{ form_label(form.cvfile) }}
+  		{{ __(form_errors(form.cvfile)) }}
+  		{{ form_widget(form.cvfile) }}
+  	</div>
+    
+    
+    {{ form_rest(form) }}
+    
+    <input type="submit" name="submit" value="Enviar" />
+</form>
+{% endif %}

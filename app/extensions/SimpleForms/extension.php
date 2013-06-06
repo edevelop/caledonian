@@ -230,11 +230,21 @@ class Extension extends \Bolt\BaseExtension
         // Check if we have fields of type 'file'. If so, fetch them, and move them
         // to the designated folder.
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
+            /*
+            if ($fieldvalues['adjunto']) {
+                echo "<pre>";
+                print_r($fieldvalues);
+                echo "</pre>";
+            }          
+            */
             if ($fieldvalues['type'] == "file") {
                 if (empty($fieldvalues['storage_location'])) {
                     die("You must set the storage_location in the field $fieldname.");
                 }
-                $path = __DIR__ . "/" . $fieldvalues['storage_location'];
+                //$path = __DIR__ . "/" . $fieldvalues['storage_location'];
+                
+                $path = $this->app['paths']['filespath'];
+                
                 if (!is_writable($path)) {
                     die("The path $path is not writable.");
                 }
@@ -279,14 +289,54 @@ class Extension extends \Bolt\BaseExtension
             $subject = '[SimpleForms] ' . $formname;
         }
 
+        /***************************************************************************************************/
+            /***
+                Establecemos el transporte.
+            ***/
+
+            $this->app['swiftmailer.transport'] = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')
+                                                ->setUsername('enrique.desarrollo@gmail.com')
+                                                ->setPassword('olakease');
+
+            /***
+                Establecemos el mensaje.
+            ***/
+                
+            if (isset($_FILES['form']['tmp_name']['currifile'])) {                                                                                                
+                        echo "<pre>";
+                        print_r($_FILES);
+                        echo "</pre>";
+                        $adjunto = \Swift_Attachment::fromPath($_FILES['form']['tmp_name']['currifile'])->setFilename($_FILES['form']['name']['currifile']);
+                        
+                        $message = \Swift_Message::newInstance()
+                                    ->setSubject($subject)
+                                    ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+                                    ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+                                    ->setBody(strip_tags($mailhtml))
+                                    ->attach($adjunto)
+                                    ->addPart($mailhtml, 'text/html');
+                        }
+                    else
+                    {
+                        $message = \Swift_Message::newInstance()
+                                    ->setSubject($subject)
+                                    ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+                                    ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+                                    ->setBody(strip_tags($mailhtml))
+                                    ->addPart($mailhtml, 'text/html');
+                    }
+            
+        /***************************************************************************************************/
+
         // Compile the message..
+        /*
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
-
+        */
         // If 'submitter_cc' is set, add a 'cc' to the submitter of the form.
         if (!empty($formconfig['submitter_cc'])) {
             if (isEmail($formconfig['submitter_cc'])) {

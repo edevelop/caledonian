@@ -1,0 +1,44 @@
+{% block barra_lateral %}
+
+	<article class="bloquelateral">	
+	{% setcontent novedades = 'bloquelateral/novedades' %}
+	
+	<header class="bloquelateral__titulo">
+		<h1>{{ novedades.title }}</h1>
+	</header>
+	
+	<div class="bloquelateral__cuerpo">
+		{{ novedades.text }}
+	</div>
+	</article>
+
+	<article class="bloquelateral">
+	{% setcontent infogeneral = 'bloquelateral/informacion-general' %}
+
+	<header class="bloquelateral__titulo">
+		<h1>{{ infogeneral.title }}</h1>
+	</header>
+
+	<div class="bloquelateral__cuerpo">
+		{{ infogeneral.text }}
+	</div>
+	</article>
+
+	{#
+	<article class="bloquelateral">
+		{% setcontent direccion = 'bloquelateral/direccion' %}
+	
+	<header class="bloquelateral__titulo">
+		<h1>{{ direccion.title }}</h1>
+	</header>
+	
+		<div class="bloquelateral__cuerpo">
+				<!-- Contador de visitas -->
+				<a href="http://www.websmultimedia.com/contador-de-visitas-gratis" title="Contador De Visitas Gratis">
+				<img style="border: 0px solid; display: inline;" alt="contador de visitas" src="http://www.websmultimedia.com/contador-de-visitas.php?id=133471"></a><a href='http://www.websmultimedia.com/contador-de-visitas-gratis'>Contador de visitas</a><br>
+				<!-- Fin Contador de visitas -->
+			{{ direccion.text }}
+		</div>
+	</article>
+	#}
+{% endblock %}

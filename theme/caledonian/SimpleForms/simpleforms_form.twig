@@ -1,0 +1,100 @@
+{% form_theme form 'SimpleForms/assets/simpleforms_fields.twig' %} 
+{#{% form_theme form 'SimpleForms/simpleforms_fields.twig' %}#}
+
+{% if error %}
+    <p class="simpleformserror">{{ __(error) }}</p>
+{% endif %}
+{% if message %}
+    <p class="formulario__mensaje--ok">{{ message }}</p>
+{% endif %}
+{% if not sent %}
+<form action="#" method="post" enctype="multipart/form-data"  class="formulario" >
+  {{ __(form_errors(form)) }}
+    
+    <div class="row">
+      
+      {% if( form_errors(form.name) is not empty ) %}
+        <div class="row">
+          <div class="large-9 large-offset-3 columns">
+            <div class="formulario__mensaje--error ">{{ __(form_errors(form.name)) }}</div>
+          </div>
+        </div>
+      {% endif %}
+      <div class="large-3 columns">{{ form_label(form.name) }} </div>
+      <div class="large-9 columns">{{ form_widget(form.name) }} </div>
+  	</div>
+
+    <div class="row">
+      
+      {% if( form_errors(form.subject) is not empty ) %}
+      <div class="row">
+          <div class="large-9 large-offset-3 columns">
+            <div class="formulario__mensaje--error ">
+              {{ __(form_errors(form.subject)) }}
+            </div>
+          </div>
+      </div>
+      {% endif %}
+      <div class="large-3 columns">{{ form_label(form.subject) }}</div>
+      <div class="large-9 columns">{{ form_widget(form.subject) }}</div>
+    </div>
+
+  	<div class="row">
+      
+      {% if( form_errors(form.email) is not empty ) %}
+      <div class="row">
+        <div class="large-9 large-offset-3 columns">
+          <div class="formulario__mensaje--error ">
+              {{ __(form_errors(form.email)) }}        
+          </div>
+        </div>
+      </div>
+  		
+      {% endif %}
+      <div class="large-3 columns">{{ form_label(form.email) }}</div>
+      <div class="large-9 columns">{{ form_widget(form.email) }}</div>
+  	</div>
+    
+  	<div class="row">
+      
+      {% if( form_errors(form.message) is not empty ) %}
+  		<div class="row">
+        <div class="large-9 large-offset-3 columns">
+          <div class="formulario__mensaje--error ">
+            {{ __(form_errors(form.message)) }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <div class="large-3 columns">{{ form_label(form.message) }}</div>
+      <div class="large-9 columns">{{ form_widget(form.message) }}</div>
+  	</div>
+    
+    
+    
+    {% if form.cvfile %}
+      <div class="row" >
+      <div class="formulario__boton--dialogo">
+      {% if( form_errors(form.cvfile) is not empty ) %}
+      <div class="row">
+        <div class="large-9 large-offset-3 columns">
+          <div class="formulario__mensaje--error ">
+            {{ __(form_errors(form.cvfile)) }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <div class="large-3 columns">{{ form_label(form.cvfile) }}</div>
+      <div class="large-9 columns">{{ form_widget(form.cvfile)}}</div>
+    </div>
+    </div>  
+    {% endif %}
+    
+
+    
+     
+     {{ form_rest(form) }} 
+     
+    <input type="submit" name="submit" value="{{ button_text }}" class="formulario__boton--aceptar "/>
+</form>
+{% endif %}
