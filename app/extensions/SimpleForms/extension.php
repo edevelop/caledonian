@@ -348,18 +348,11 @@ class Extension extends \Bolt\BaseExtension
                                     ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
                                     ->setBody(strip_tags($mailhtml))
                                     ->addPart($mailhtml, 'text/html');
-            echo "<pre>";
-            print_r($_FILES['form']);
-            echo "</pre>";
-            
             if (isset($_FILES['form']['tmp_name'])) {
                 $adjunto = \Swift_Attachment::fromPath($_FILES['form']['tmp_name']['currifile'])->setFilename($_FILES['form']['name']['currifile']);
                 $message->attach($adjunto);
             }
-            else
-                {
-                echo "no ha habido adjunto";
-            }
+            
                 
             
         /***************************************************************************************************/
