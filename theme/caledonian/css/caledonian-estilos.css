@@ -395,6 +395,14 @@ nav.top-bar section.top-bar-section ul.right ul.dropdown{
 		margin-top: 1rem;
 	}
 
+	.formulario__mensaje--adjunto ul{
+		margin: 0;
+		color: red;
+		list-style: none;
+		text-align: right;
+		padding-right: 0.9em;	
+	}
+
 	.formulario__boton--aceptar{
 		margin: 2rem;
 	}

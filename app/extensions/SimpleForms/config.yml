@@ -63,6 +63,8 @@ cvform:
       required: true
       placeholder: Mensaje...
     currifile:
+      adjunto: true
+      required: true
       type: file
       filetype: [ txt, jpg ]
       storage_location: 'files'

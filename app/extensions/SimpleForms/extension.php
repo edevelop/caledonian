@@ -227,17 +227,20 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        // Check if we have fields of type 'file'. If so, fetch them, and move them
-        // to the designated folder.
+        /*************************************************************************************/
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
-            /*
-            if ($fieldvalues['adjunto']) {
-                echo "<pre>";
-                print_r($fieldvalues);
-                echo "</pre>";
-            }          
-            */
-            if ($fieldvalues['type'] == "file") {
+            
+            if (isset($fieldvalues['adjunto'])) {
+                //if (isset($_FILES['form']['name'])) {
+                    $esadjunto = true;
+                //}
+            }
+
+
+
+
+            //if (($fieldvalues['type'] == "file") && !(isset($fieldvalues['adjunto']) && $fieldvalues['adjunto'] == true)){
+            if (($fieldvalues['type'] == "file") && !$esadjunto){
                 if (empty($fieldvalues['storage_location'])) {
                     die("You must set the storage_location in the field $fieldname.");
                 }
@@ -266,6 +269,43 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        /*************************************************************************************/
+
+
+        // Check if we have fields of type 'file'. If so, fetch them, and move them
+        // to the designated folder.
+        /*
+        foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
+            
+            if ($fieldvalues['type'] == "file") {
+                if (empty($fieldvalues['storage_location'])) {
+                    die("You must set the storage_location in the field $fieldname.");
+                }
+                //$path = __DIR__ . "/" . $fieldvalues['storage_location'];
+                
+                $path = $this->app['paths']['filespath'];
+                
+                if (!is_writable($path)) {
+                    die("The path $path is not writable.");
+                }
+                $files = $this->app['request']->files->get($form->getName());
+                $originalname = strtolower($files[$fieldname]->getClientOriginalName());
+                $filename = sprintf("%s-%s-%s.%s", $fieldname, date('Y-m-d'), makeKey(8), getExtension($originalname));
+                $link = sprintf("%sapp/extensions/SimpleForms/%s/%s", $this->app['paths']['rooturl'], $fieldvalues['storage_location'], $filename);
+
+                // Make sure the file is in the allowed extensions.
+                if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
+                    // If so, replace the file to designated folder.
+                    $files[$fieldname]->move($path, $filename);
+                    $data[$fieldname] = $link;
+                } else {
+                    $data[$fieldname] = "Invalid upload, ignored ($originalname)";
+                }
+
+
+            }
+        }
+        */
 
         // Attempt to insert the data into a table, if specified..
         if (!empty($formconfig['insert_into_table'])) {
@@ -302,31 +342,31 @@ class Extension extends \Bolt\BaseExtension
                 Establecemos el mensaje.
             ***/
                 
-            if (isset($_FILES['form']['tmp_name']['currifile'])) {                                                                                                
-                        echo "<pre>";
-                        print_r($_FILES);
-                        echo "</pre>";
-                        $adjunto = \Swift_Attachment::fromPath($_FILES['form']['tmp_name']['currifile'])->setFilename($_FILES['form']['name']['currifile']);
-                        
-                        $message = \Swift_Message::newInstance()
-                                    ->setSubject($subject)
-                                    ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
-                                    ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
-                                    ->setBody(strip_tags($mailhtml))
-                                    ->attach($adjunto)
-                                    ->addPart($mailhtml, 'text/html');
-                        }
-                    else
-                    {
-                        $message = \Swift_Message::newInstance()
+            $message = \Swift_Message::newInstance()
                                     ->setSubject($subject)
                                     ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
                                     ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
                                     ->setBody(strip_tags($mailhtml))
                                     ->addPart($mailhtml, 'text/html');
-                    }
+            echo "<pre>";
+            print_r($_FILES['form']);
+            echo "</pre>";
+            
+            if (isset($_FILES['form']['tmp_name'])) {
+                $adjunto = \Swift_Attachment::fromPath($_FILES['form']['tmp_name']['currifile'])->setFilename($_FILES['form']['name']['currifile']);
+                $message->attach($adjunto);
+            }
+            else
+                {
+                echo "no ha habido adjunto";
+            }
+                
             
         /***************************************************************************************************/
+
+
+
+
 
         // Compile the message..
         /*
@@ -336,6 +376,7 @@ class Extension extends \Bolt\BaseExtension
             ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
+
         */
         // If 'submitter_cc' is set, add a 'cc' to the submitter of the form.
         if (!empty($formconfig['submitter_cc'])) {
@@ -348,7 +389,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
         $res = $this->app['mailer']->send($message);
-
+         
         return $res;
 
     }

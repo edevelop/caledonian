@@ -3,15 +3,15 @@
 # require username, password and perhaps a hostname.
 # If you're trying out Bolt, just keep it set to SQLite for now.
 database:
-  #driver: mysql
-  #username: caledonian
-  #password: caledonian
-  #databasename: caledonian
   driver: mysql
-  username: caledonian6
-  password: R1n040MhTYC6WuQ5
-  databasename: caledonian6
-  host: caledonian6.mysql.eu1.frbit.com
+  username: caledonian
+  password: caledonian
+  databasename: caledonian
+  #driver: mysql
+  #username: caledonian6
+  #password: R1n040MhTYC6WuQ5
+  #databasename: caledonian6
+  #host: caledonian6.mysql.eu1.frbit.com
   
 
 # The name of the website

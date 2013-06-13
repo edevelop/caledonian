@@ -8,7 +8,7 @@
     <p class="formulario__mensaje--ok">{{ message }}</p>
 {% endif %}
 {% if not sent %}
-<form action="#" method="post" enctype="multipart/form-data"  class="formulario" >
+<form action="#" method="post" enctype="multipart/form-data"  class="formulario" novalidate>
   {{ __(form_errors(form)) }}
     
     <div class="row">
@@ -72,28 +72,15 @@
     
     
     
-    {% if form.cvfile %}
-      <div class="row" >
-      <div class="formulario__boton--dialogo">
-      {% if( form_errors(form.cvfile) is not empty ) %}
-      <div class="row">
-        <div class="large-9 large-offset-3 columns">
-          <div class="formulario__mensaje--error ">
-            {{ __(form_errors(form.cvfile)) }}
-          </div>
-        </div>
-      </div>
-      {% endif %}
-      <div class="large-3 columns">{{ form_label(form.cvfile) }}</div>
-      <div class="large-9 columns">{{ form_widget(form.cvfile)}}</div>
-    </div>
-    </div>  
-    {% endif %}
     
 
     
-     
-     {{ form_rest(form) }} 
+    <div class="row" >
+    <div class="large-9 large-centered columns formulario__mensaje--adjunto">
+      {{ form_rest(form) }}
+    </div> 
+    </div> 
+
      
     <input type="submit" name="submit" value="{{ button_text }}" class="formulario__boton--aceptar "/>
 </form>
